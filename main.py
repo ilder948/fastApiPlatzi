@@ -2,10 +2,13 @@
 from typing import Optional
 
 
+from pydantic import EmailStr
+
+
 #FastApi
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body, Query, Path, Form
+from fastapi import Body, Query, Path, Form, Header, Cookie
 
 
 # import Modelos
@@ -102,3 +105,52 @@ def update_person(
 )
 def login(username: str = Form(...), password: str = Form(...)):
     return LoginOut(username=username)
+
+#Cookies and headers parameters
+
+@app.post(
+    path="/contact", 
+    status_code=status.HTTP_200_OK
+)
+def contact(
+    first_name: str = Form(
+        ...,
+        max_length=20,
+        min_length=1
+    ),
+    last_name: str = Form(
+        ...,
+        max_length=20,
+        min_length=1
+    ),
+    email: EmailStr = Form(...),
+    message: str = Form(
+        ...,
+        min_length=20
+    ),
+    user_agent: Optional[str] = Header(default=None),
+    ads: Optional[str] = Cookie(default=None)
+
+):
+    return user_agent
+
+
+
+
+
+
+
+# anyio==3.6.2
+# click==8.1.3
+# dnspython==2.2.1
+# email-validator==1.3.0
+# fastapi==0.88.0
+# h11==0.14.0
+# idna==3.4
+# pydantic==1.10.4
+# python-multipart==0.0.5
+# six==1.16.0
+# sniffio==1.3.0
+# starlette==0.22.0
+# typing_extensions==4.4.0
+# uvicorn==0.20.0
