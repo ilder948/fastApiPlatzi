@@ -42,3 +42,9 @@ class Person(PersonBase):
 
 class PersonOut(PersonBase):
     pass
+
+
+class LoginOut(BaseModel):
+    username: str = Field(..., max_length=20, example="Ildebrando")
+    message: str = Field(default="login")
+

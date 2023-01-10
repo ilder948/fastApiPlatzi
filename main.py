@@ -5,12 +5,12 @@ from typing import Optional
 #FastApi
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body, Query, Path
+from fastapi import Body, Query, Path, Form
 
 
 # import Modelos
 
-from models import Person,  PersonOut
+from models import Person, PersonOut, LoginOut
 
 
 app = FastAPI()
@@ -93,3 +93,12 @@ def update_person(
     #result = person.dict()
     #result.update(location.dict())
     return {person}
+
+
+@app.post(
+    path="/login",
+    response_model=LoginOut,
+    status_code=status.HTTP_200_OK
+)
+def login(username: str = Form(...), password: str = Form(...)):
+    return LoginOut(username=username)
